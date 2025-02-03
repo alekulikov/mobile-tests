@@ -29,7 +29,7 @@ public class BrowserstackDriver implements WebDriverProvider {
         caps.setCapability("appium:deviceName", PLATFORM_CONFIG.deviceName());
         caps.setCapability("appium:app", PLATFORM_CONFIG.app());
         try {
-            return new AndroidDriver(new URL(PLATFORM_CONFIG.url()), capabilities);
+            return new AndroidDriver(new URL(PLATFORM_CONFIG.url()), caps);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
