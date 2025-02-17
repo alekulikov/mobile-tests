@@ -1,2 +1,2 @@
-rootProject.name = "mobile-tests-browserstack"
+rootProject.name = "mobile-tests"
 
