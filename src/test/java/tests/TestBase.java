@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import drivers.BrowserstackDriver;
+import drivers.LocalDriver;
 import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
@@ -16,7 +17,11 @@ import static com.codeborne.selenide.Selenide.open;
 class TestBase {
     @BeforeAll
     static void beforeAll() {
-        Configuration.browser = BrowserstackDriver.class.getName();
+        Configuration.browser = switch (System.getProperty("env")) {
+            case "browserstack" -> BrowserstackDriver.class.getName();
+            case "local" -> LocalDriver.class.getName();
+            case null, default -> throw new IllegalStateException("Unexpected env: " + System.getProperty("env"));
+        };
         Configuration.browserSize = null;
         Configuration.timeout = 30000;
     }
@@ -33,6 +38,8 @@ class TestBase {
         Attach.screenshotAs("Last screenshot");
         Attach.pageSource();
         closeWebDriver();
-        Attach.addVideo(sessionId);
+        if ("drivers.BrowserstackDriver".equals(Configuration.browser)) {
+            Attach.addVideo(sessionId);
+        }
     }
 }

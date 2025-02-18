@@ -3,10 +3,9 @@ package configs;
 import org.aeonbits.owner.Config;
 
 @Config.Sources({
-        "classpath:configs/${platform}.properties",
-        "classpath:configs/android.properties"
+        "classpath:configs/browserstack/android.properties"
 })
-public interface PlatformConfig extends Config {
+public interface BrowserstackConfig extends Config {
 
     @Key("browserstack.url")
     String url();

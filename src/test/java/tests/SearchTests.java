@@ -9,10 +9,12 @@ import screens.ArticleScreen;
 import screens.MainScreen;
 import screens.SearchScreen;
 
+import static com.codeborne.selenide.Selenide.back;
+
 @Feature("Главный экран")
 @Story("Поиск")
 @Owner("alekulikov")
-@Link(value = "Testing", url = "https://github.com/alekulikov/mobile-tests-browserstack")
+@Link(value = "Testing", url = "https://github.com/alekulikov/mobile-tests")
 class SearchTests extends TestBase {
 
     final MainScreen mainScreen = new MainScreen();
@@ -27,7 +29,9 @@ class SearchTests extends TestBase {
     })
     @DisplayName("Успешный поиск по слову")
     void successfulSearchTest() {
-        mainScreen.openSearchScreen();
+        back();
+        mainScreen.closeWindow()
+                .openSearchScreen();
         searchScreen.searchByText("Appium")
                 .checkResultIsNotEmpty();
     }
@@ -40,10 +44,12 @@ class SearchTests extends TestBase {
     })
     @DisplayName("Открытие результата поиска")
     void successfulOpenResultSearchTest() {
-        mainScreen.openSearchScreen();
+        back();
+        mainScreen.closeWindow()
+                .openSearchScreen();
         searchScreen.searchByText("Appium")
                 .checkResultIsNotEmpty()
                 .openFirstResult();
-        articleScreen.checkErrorMessage("An error occurred");
+        articleScreen.checkArticleDescription("Automation for Apps");
     }
 }

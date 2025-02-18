@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 import static configs.ConfigsProvider.AUTH_CONFIG;
-import static configs.ConfigsProvider.PLATFORM_CONFIG;
+import static configs.ConfigsProvider.BROWSERSTACK_CONFIG;
 
 public class BrowserstackDriver implements WebDriverProvider {
     @Nonnull
@@ -22,14 +22,17 @@ public class BrowserstackDriver implements WebDriverProvider {
         var bstackOptions = new HashMap<String, Object>();
         bstackOptions.put("userName", AUTH_CONFIG.username());
         bstackOptions.put("accessKey", AUTH_CONFIG.accessKey());
-        bstackOptions.put("projectName", PLATFORM_CONFIG.projectName());
+        bstackOptions.put("projectName", BROWSERSTACK_CONFIG.projectName());
+        bstackOptions.put("appiumVersion", "2.0.1");
         caps.setCapability("bstack:options", bstackOptions);
-        caps.setCapability("platformName", PLATFORM_CONFIG.platformName());
-        caps.setCapability("appium:platformVersion", PLATFORM_CONFIG.platformVersion());
-        caps.setCapability("appium:deviceName", PLATFORM_CONFIG.deviceName());
-        caps.setCapability("appium:app", PLATFORM_CONFIG.app());
+        caps.setCapability("platformName", BROWSERSTACK_CONFIG.platformName());
+        caps.setCapability("appium:platformVersion", BROWSERSTACK_CONFIG.platformVersion());
+        caps.setCapability("appium:deviceName", BROWSERSTACK_CONFIG.deviceName());
+        caps.setCapability("appium:app", BROWSERSTACK_CONFIG.app());
+        caps.setCapability("appium:automationName", "UIAutomator2");
+        caps.setCapability("appium:disableIdLocatorAutocompletion", true);
         try {
-            return new AndroidDriver(new URL(PLATFORM_CONFIG.url()), caps);
+            return new AndroidDriver(new URL(BROWSERSTACK_CONFIG.url()), caps);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
